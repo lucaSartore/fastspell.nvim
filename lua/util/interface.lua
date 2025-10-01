@@ -7,13 +7,13 @@ local M = {}
 ---@param  callback function(SpellResponse)
 ---@param settings FastSpellSettings
 function M.setup(callback, settings)
-    local stdin = vim.loop.new_pipe(false)
-    local stdout = vim.loop.new_pipe(false)
-    local stderr = vim.loop.new_pipe(false)
+    local stdin = vim.uv.new_pipe(false)
+    local stdout = vim.uv.new_pipe(false)
+    local stderr = vim.uv.new_pipe(false)
 
 
     local handle
-    handle, _ = vim.loop.spawn(
+    handle, _ = vim.uv.spawn(
         windows and settings.server_code_path or "/bin/sh",
         {
             args = windows and nil or {settings.server_code_path},
