@@ -103,10 +103,12 @@ function M.sendSpellCheckRequest(line_start, line_end, buffer)
         request.is_in_execution = true
         local linesArray = vim.api.nvim_buf_get_lines(args.buffer, args.line_start, args.line_end, true)
         local lines = table.concat(linesArray, "\n")
+        local file_type = vim.api.nvim_get_option_value('filetype', { buf = buffer })
         M.interface.send_request({
             Kind = "check_spell",
             text = lines,
             startLine = args.line_start,
+            languageId = file_type,
         })
     end)
 end
