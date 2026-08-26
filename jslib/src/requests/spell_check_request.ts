@@ -31,7 +31,7 @@ function convertSpellCheckResult(input: Array<ValidationIssue>, lineOffset: numb
         problems: input.map(x => {
             return {
                 lineStart: translationTable[x.offset],
-                lineOfset: x.offset - x.line.offset,
+                lineOfset: Buffer.byteLength(originalText.slice(x.line.offset, x.offset), "utf8"),
                 word: x.text
             }
         })
@@ -54,4 +54,3 @@ export async function processCheckSpellRequest(request: CheckSpellRequest): Prom
 	);
 	return convertSpellCheckResult(result.issues, request.startLine, request.text);
 }
-
